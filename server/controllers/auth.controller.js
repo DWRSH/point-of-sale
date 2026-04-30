@@ -41,30 +41,19 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc   Auth user & get token (यूज़र को लॉगिन करें)
+// @desc   Auth user & get token (लॉगिन सिस्टम अब बाईपास कर दिया गया है)
 // @route  POST /api/auth/login
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  // अब हम डेटाबेस में ईमेल और पासवर्ड चेक नहीं करेंगे!
+  // आप फ्रंटएंड पर कुछ भी डालें, यह उसे सही मान लेगा।
 
-  // 1. यूज़र को ईमेल से ढूँढें
-  const user = await User.findOne({ email });
-
-  // 2. अगर यूज़र है और पासवर्ड मैच होता है
-  if (user && (await user.matchPassword(password))) {
-    // 3. उसे एक नया टोकन दें
-    const token = generateToken(user._id);
-
-    res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      token: token, // टोकन को फ्रंटएंड पर भेजें
-    });
-  } else {
-    res.status(401); // Unauthorized
-    throw new Error('Invalid email or password');
-  }
+  res.status(200).json({
+    _id: "fake_admin_id",
+    name: "Admin Bypass",
+    email: req.body.email || "admin@test.com", // जो ईमेल आपने डाला, वही सेट हो जाएगा
+    role: "admin",
+    token: "fake_jwt_token_for_bypass_system", // एक डमी टोकन ताकि फ्रंटएंड खुश रहे
+  });
 });
 
 export { registerUser, loginUser };
