@@ -6,13 +6,10 @@ import {
   registerUser,
   loginUser,
 } from '../controllers/auth.controller.js';
-// 1. (नया) अपने गार्ड्स को इम्पोर्ट करें
-import { protect, admin } from '../middleware/auth.middleware.js';
 
 // POST /api/auth/register
-// (बदलाव) - रजिस्टर करने के लिए, यूज़र का लॉगिन होना (protect)
-// और 'admin' (admin) होना ज़रूरी है।
-router.post('/register', protect, admin, registerUser);
+// (बदलाव) - रजिस्टर करने के लिए अब लॉगिन या 'admin' होने की ज़रूरत नहीं है।
+router.post('/register', registerUser);
 
 // POST /api/auth/login
 // (यह पब्लिक रहेगा, कोई भी लॉगिन कर सकता है)
